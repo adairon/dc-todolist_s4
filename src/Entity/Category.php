@@ -24,7 +24,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Todo", mappedBy="category_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Todo", mappedBy="category", orphanRemoval=true)
      */
     private $todos;
 
@@ -62,7 +62,7 @@ class Category
     {
         if (!$this->todos->contains($todo)) {
             $this->todos[] = $todo;
-            $todo->setCategoryId($this);
+            $todo->setCategory($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class Category
         if ($this->todos->contains($todo)) {
             $this->todos->removeElement($todo);
             // set the owning side to null (unless already changed)
-            if ($todo->getCategoryId() === $this) {
-                $todo->setCategoryId(null);
+            if ($todo->getCategory() === $this) {
+                $todo->setCategory(null);
             }
         }
 
